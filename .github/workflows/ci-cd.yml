@@ -1,0 +1,57 @@
+name: Solo CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build and Test My App
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Show project structure
+        run: |
+          echo "My project files:"
+          ls -la
+      
+      - name: Build Docker image
+        run: |
+          echo "Building my Docker image..."
+          docker compose -f compose.yml build
+          echo "Build complete!"
+      
+      - name: Start container
+        run: |
+          echo "Starting my container..."
+          docker compose -f compose.yml up -d
+          echo "Container started!"
+      
+      - name: Wait for app to be ready
+        run: |
+          echo "Waiting for app to start..."
+          sleep 10
+          docker compose -f compose.yml ps
+      
+      - name: Test my app
+        run: |
+          echo "Testing my app..."
+          curl -f http://localhost:8080
+          echo "MY APP IS WORKING! ✅"
+      
+      - name: Show logs if something failed
+        if: failure()
+        run: |
+          echo "Something went wrong. Here are the logs:"
+          docker compose -f compose.yml logs
+      
+      - name: Cleanup
+        if: always()
+        run: |
+          echo "Cleaning up..."
+          docker compose -f compose.yml down
+          echo "Cleanup complete!"
