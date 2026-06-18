@@ -1,6 +1,6 @@
 # My First Solo CI/CD Project
 
-![Pipeline Status](https://github.com/Adano12/my-first-solo-ci-cd/actions/workflows/ci-cd.yml/badge.svg)
+(https://github.com/Adano12/my-first-solo-ci-cd/actions/workflows/ci-cd.yml/badge.svg)
 
 ## What This Project Does
 This is a simple web application that shows I can:
